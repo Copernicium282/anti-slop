@@ -58,21 +58,35 @@ export default defineConfig({
   rules: {
     "oxc/no-accumulating-spread": "error",
     "anti-slop/no-array-filter-map": "error",
-    "anti-slop/no-reduce-accumulator-copy": "error",
+    "anti-slop/no-async-promise-executor": "error",
     "anti-slop/no-chained-type-assertions": "error",
     "anti-slop/no-conditional-empty-object-spread": "error",
+    "anti-slop/no-empty-object-type": "error",
+    "anti-slop/no-enum-declaration": "error",
+    "anti-slop/no-global-regex-replace": "error",
+    "anti-slop/no-import-assertions": "error",
+    "anti-slop/no-json-clone-round-trip": "error",
     "anti-slop/no-known-value-widening": "error",
+    "anti-slop/no-legacy-has-own-property": "error",
+    "anti-slop/no-legacy-namespace-keyword": "error",
     "anti-slop/no-module-mocking": "error",
     "anti-slop/no-object-parameters": "error",
+    "anti-slop/no-parameter-property": "error",
+    "anti-slop/no-reduce-accumulator-copy": "error",
+    "anti-slop/no-reduce-grouping": "error",
     "anti-slop/no-reflect-apply": "error",
     "anti-slop/no-reflect-get": "error",
     "anti-slop/no-runtime-typeof": "error",
+    "anti-slop/no-string-execution": "error",
     "anti-slop/no-shape-in-symbol-names": "error",
     "anti-slop/no-unknown-parameters": "error",
     "anti-slop/no-unknown-returns": "error",
     "anti-slop/no-unknown-type-aliases": "error",
     "anti-slop/no-unsafe-dictionary-type": "error",
+    "anti-slop/no-unsafe-enum-comparison": "error",
+    "anti-slop/no-unsupported-jsdoc-tag": "error",
     "anti-slop/no-widen-then-assert": "error",
+    "anti-slop/no-wrapper-object-types": "error",
     "anti-slop/require-readable-spacing": "error",
     "anti-slop/require-safety-comment-for-type-assertion": "error"
   }
@@ -104,11 +118,98 @@ export default defineConfig({
 });
 ```
 
+### Optional React rules
+
+The React group encodes React 19 deprecations from the official upgrade guide and the `@deprecated` tags in `@types/react`. Register it only in repositories that use React:
+
+```ts
+export default defineConfig({
+  jsPlugins: [
+    { name: "anti-slop", specifier: "./tools/oxlint/anti-slop/index.ts" },
+    { name: "anti-slop-react", specifier: "./tools/oxlint/anti-slop/react/index.ts" }
+  ],
+  rules: {
+    "anti-slop-react/no-array-index-key": "error",
+    "anti-slop-react/no-default-props-on-function-component": "error",
+    "anti-slop-react/no-deprecated-event-property": "error",
+    "anti-slop-react/no-deprecated-form-event": "error",
+    "anti-slop-react/no-deprecated-jsx-attribute": "error",
+    "anti-slop-react/no-deprecated-react-type": "error",
+    "anti-slop-react/no-forward-ref": "error",
+    "anti-slop-react/no-global-jsx-namespace": "error",
+    "anti-slop-react/no-implicit-ref-callback-return": "error",
+    "anti-slop-react/no-legacy-class-lifecycle": "error",
+    "anti-slop-react/no-legacy-context": "error",
+    "anti-slop-react/no-legacy-react-dom-api": "error",
+    "anti-slop-react/no-nested-component": "error",
+    "anti-slop-react/no-prop-types": "error",
+    "anti-slop-react/no-react-internals": "error",
+    "anti-slop-react/no-string-refs": "error",
+    "anti-slop-react/no-use-reducer-type-argument": "error",
+    "anti-slop-react/no-use-ref-without-argument": "error"
+  }
+});
+```
+
+### Optional prose rules
+
+The prose group turns the Humanizer skill's writing patterns into deterministic checks over comments and documentation, so an agent cannot quietly fill a file with stock phrasing. It follows the source skill's own rule: the strongest patterns report on a single sighting, and the patterns the skill marks as *weak alone* only report when the same passage stacks several of them. Comments are the only surface by default; add `{ "includeStrings": true }` to also check user-facing string literals.
+
+```ts
+export default defineConfig({
+  jsPlugins: [
+    { name: "anti-slop", specifier: "./tools/oxlint/anti-slop/index.ts" },
+    { name: "anti-slop-prose", specifier: "./tools/oxlint/anti-slop/prose/index.ts" }
+  ],
+  rules: {
+    "anti-slop-prose/no-ai-vocabulary": "error",
+    "anti-slop-prose/no-chatbot-residue": "error",
+    "anti-slop-prose/no-changelog-comment": "error",
+    "anti-slop-prose/no-comment-repeats-symbol-name": "error",
+    "anti-slop-prose/no-copula-avoidance": "error",
+    "anti-slop-prose/no-dash-as-connector": "error",
+    "anti-slop-prose/no-decorative-formatting": "error",
+    "anti-slop-prose/no-forced-triad": "error",
+    "anti-slop-prose/no-hyphenated-pair": "error",
+    "anti-slop-prose/no-inflated-significance": "error",
+    "anti-slop-prose/no-knowledge-limit-disclaimer": "error",
+    "anti-slop-prose/no-not-but-contrast": "error",
+    "anti-slop-prose/no-one-line-closer": "error",
+    "anti-slop-prose/no-passive-voice": "error",
+    "anti-slop-prose/no-philosophical-saying": "error",
+    "anti-slop-prose/no-repeated-sentence-opening": "error",
+    "anti-slop-prose/no-sales-language": "error",
+    "anti-slop-prose/no-shallow-ing-rider": "error",
+    "anti-slop-prose/no-smart-quotes": "error",
+    "anti-slop-prose/no-stacked-qualifier": "error",
+    "anti-slop-prose/no-staged-runup": "error",
+    "anti-slop-prose/no-unraised-objection": "error",
+    "anti-slop-prose/no-vague-association": "error"
+  }
+});
+```
+
+The patterns come from [blader/humanizer](https://github.com/blader/humanizer) (MIT), which is itself built on Wikipedia's ["Signs of AI writing"](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing). Because this project vendors the rules, edit the phrase lists in `src/prose/rules/*.ts` to match your own voice instead of forking: a phrase list is a plain array of labelled patterns.
+
 ## Rules
 
 ### Generic rules
 
-- `no-array-filter-map` — rejects adjacent eager array filter/map passes while allowing lazy iterator pipelines.
+- `no-array-filter-map` — rejects adjacent eager array filter/map passes while allowing lazy iterator pipelines.
+- `no-async-promise-executor` - rejects an `async` function passed as a `Promise` executor, where a throw after the first `await` never rejects the promise.
+- `no-empty-object-type` - rejects `{}`, which accepts every non-nullish value and therefore behaves like `any`. Dictionary value positions stay with `no-unsafe-dictionary-type`.
+- `no-enum-declaration` - rejects `enum`, which needs a runtime object and cannot be erased by type stripping. TypeScript's "Objects vs Enums" page documents the `as const` alternative.
+- `no-global-regex-replace` - rejects `String.prototype.replace` with a global regex in favor of `replaceAll` or `matchAll`.
+- `no-import-assertions` - rejects `import ... asserts { ... }`; TypeScript 6.0 deprecated it, TypeScript 7.0 rejects it, and current parsers already fail to parse it.
+- `no-json-clone-round-trip` - rejects `JSON.parse(JSON.stringify(value))` as a deep clone, which drops `Date`, `Map`, `Set`, functions, and cycles.
+- `no-legacy-has-own-property` - rejects `Object.prototype.hasOwnProperty.call` and `value.hasOwnProperty` in favor of `Object.hasOwn`, which MDN documents as the replacement.
+- `no-legacy-namespace-keyword` - rejects `module Foo {}`, deprecated in TypeScript 6.0 and rejected in TypeScript 7.0.
+- `no-parameter-property` - rejects constructor parameter properties, which compile to assignments type stripping cannot erase.
+- `no-reduce-grouping` - rejects hand-rolled grouping reducers in favor of `Object.groupBy` or `Map.groupBy`.
+- `no-string-execution` - rejects `eval`, `new Function`, and string callbacks to `setTimeout`/`setInterval`.
+- `no-unsafe-enum-comparison` - rejects comparing an enum member against a primitive literal, which can never be equal at runtime for a string enum.
+- `no-unsupported-jsdoc-tag` - rejects `@enum` and `@constructor`, which TypeScript 7.0 no longer recognizes in JavaScript files.
+- `no-wrapper-object-types` - rejects `String`, `Number`, `Boolean`, `Symbol`, `BigInt`, and `Object` as types, because they describe boxed objects.
 - `no-reduce-accumulator-copy` — rejects non-spread accumulator copies inside reducers; complements native `oxc/no-accumulating-spread`.
 - `no-chained-type-assertions` — rejects nested `as` and angle-bracket assertions that fabricate evidence; chains made only of `as const` remain valid.
 - `no-conditional-empty-object-spread` — reports object spreads that use a conditional `{}` branch to omit fields. It intentionally has no autofix because omission is not equivalent to assigning `undefined`.
@@ -127,6 +228,54 @@ export default defineConfig({
 - `require-readable-spacing` — autofixes missing blank lines between top-level declarations, around multiline bindings, before control flow/returns, and after blocks; preserves compact local bindings, imports, and overload groups.
 - `require-safety-comment-for-type-assertion` — requires each non-const assertion to have a nearby, non-empty invariant justification. Marker prefixes are configurable and default to `SAFETY`.
 
+### React rules
+
+- `no-array-index-key` - rejects `key={index}`, so state and DOM nodes follow a position instead of an item when the list reorders.
+- `no-default-props-on-function-component` - rejects `defaultProps` on function components, which React 19 removed in favor of ES6 default parameters. Class components keep it.
+- `no-deprecated-event-property` - rejects `keyCode`, `charCode`, and `which` read off a keyboard event, in a JSX handler or an `addEventListener` callback.
+- `no-deprecated-form-event` - rejects `FormEvent` and `FormEventHandler`, which `@types/react` deprecates because no DOM event is a plain form event.
+- `no-deprecated-jsx-attribute` - rejects `onKeyPress`, `aria-grabbed`, `aria-dropeffect`, `charSet`, `frameBorder`, `marginWidth`, and `marginHeight`.
+- `no-deprecated-react-type` - rejects the rest of the deprecated type names (`MutableRefObject`, `LegacyRef`, `PropsWithRef`, `ReactFragment`, `SFC`, and friends), including `React.`-qualified uses.
+- `no-forward-ref` - rejects `forwardRef`, since React 19 passes `ref` as an ordinary prop to function components.
+- `no-global-jsx-namespace` - rejects `declare global { namespace JSX { ... } }`; React 19 requires augmentation through `declare module "react"`.
+- `no-implicit-ref-callback-return` - rejects an implicit return from a ref callback, which React 19 reads as a cleanup function. Returning a cleanup function stays allowed.
+- `no-legacy-class-lifecycle` - rejects `componentWillMount`, `componentWillReceiveProps`, and `componentWillUpdate`, including the `UNSAFE_` names.
+- `no-legacy-context` - rejects `contextTypes`, `childContextTypes`, and `getChildContext`, which React 19 removed.
+- `no-legacy-react-dom-api` - rejects `ReactDOM.render`, `ReactDOM.hydrate`, `unmountComponentAtNode`, `findDOMNode`, `createFactory`, `react-dom/test-utils`, and `react-test-renderer`.
+- `no-nested-component` - rejects a component declared inside another component, which creates a new component type on every render.
+- `no-prop-types` - rejects the `prop-types` package and `Component.propTypes`, which React 19 ignores.
+- `no-react-internals` - rejects `__SECRET_INTERNALS_*`, `ReactSharedInternals`, and `ReactCurrentDispatcher`.
+- `no-string-refs` - rejects `ref="input"` and `this.refs`, which React 19 removed.
+- `no-use-reducer-type-argument` - rejects `useReducer<Reducer<State, Action>>(reducer)`, which React 19 no longer accepts as a single type argument.
+- `no-use-ref-without-argument` - rejects `useRef()`, which React 19 requires an argument for.
+
+### Prose rules
+
+These rules read comments (and optionally string literals) rather than types. Each one names the Humanizer pattern it encodes, so a finding points at a specific writing habit instead of a vague tone complaint.
+
+- `no-ai-vocabulary` - two or more stock AI words (`delve`, `tapestry`, `testament`, `pivotal`, ...) in one passage. Extend the list with `{ "extra": ["seamless"] }`.
+- `no-chatbot-residue` - rejects `I hope this helps`, `Great question!`, `let me know`, and other wrappers that belong in a chat rather than a file.
+- `no-changelog-comment` - rejects a comment that describes what the code replaced instead of what it does.
+- `no-comment-repeats-symbol-name` - rejects a doc comment whose first sentence restates the symbol's own name.
+- `no-copula-avoidance` - rejects `serves as`, `functions as`, `refers to`, and similar phrases standing in for `is`, `are`, or `has`.
+- `no-dash-as-connector` - rejects em dashes, en dashes, and spaced `--` used to join clauses. `{ "maxDashes": 1 }` sets a budget for a house style.
+- `no-decorative-formatting` - rejects a bold label, a bold line, and emoji applied as decoration.
+- `no-forced-triad` - rejects a three-item list of equal weight padded to three.
+- `no-hyphenated-pair` - rejects repeated hyphenated pairs (`cross-functional`, `high-quality`, ...) with `{ "minDistinct": 3 }` by default.
+- `no-inflated-significance` - rejects `stands as a testament`, `a pivotal moment`, `the future looks bright`, and similar dressing.
+- `no-knowledge-limit-disclaimer` - rejects `not publicly available`, `it is believed that`, and other guesses presented as sourced.
+- `no-not-but-contrast` - rejects `not just X, it's Y`, including the form split across two sentences.
+- `no-one-line-closer` - rejects a stock punchline, a short demonstrative closer, and a row of fragments.
+- `no-passive-voice` - rejects a passive clause that hides the actor. `{ "minOccurrences": 2 }` follows the source skill's *weak alone* note.
+- `no-philosophical-saying` - rejects `at its core`, `the real question is`, and `X is the language of Y`.
+- `no-repeated-sentence-opening` - rejects three or more consecutive sentences opening with the same word.
+- `no-sales-language` - rejects `nestled`, `breathtaking`, `renowned`, `boasts`, and, in pairs, `rich`/`featuring`/`profound`.
+- `no-shallow-ing-rider` - rejects a trailing `-ing` rider (`symbolizing`, `showcasing`) with no claim of its own.
+- `no-smart-quotes` - rejects curly quotes. It reads strings by default because that is where they appear.
+- `no-stacked-qualifier` - rejects two or more stacked qualifiers in one passage.
+- `no-staged-runup` - rejects `let's dive in`, `here's what you need to know`, and other staged openers.
+- `no-unraised-objection` - rejects `this isn't mainly about`, `to be clear`, and arguments with no one.
+- `no-vague-association` - rejects `associated with` and `linked to` where the source does not name the relationship.
 ### Effect rules
 
 - `no-manual-effect-error-tag` — rejects manual `_tag` comparisons and switches inside broad `Effect.catch`, `Effect.catchAll`, and `Effect.catchIf` handlers in favor of tagged error handlers.
@@ -135,8 +284,82 @@ export default defineConfig({
 - `no-service-constructor-imports` — rejects named `make<CapabilityName>` imports from relative project modules outside `*.test.*` and `*.spec.*` files. Runtime callers should import the owning Layer and yield the contextual service instead. Package and path-alias imports, default imports, and static constructors such as `WorkspaceName.make` are outside the rule.
 - `prefer-effect-match` — rejects chained literal ternaries over the same value in favor of Effect's `Match` API.
 
+### Violation examples for the new rules
+
+``	s
+// no-empty-object-type
+function save(value: {}) {}
+
+// no-wrapper-object-types
+function label(value: String) {}
+
+// no-enum-declaration
+enum Direction { Up, Down }
+
+// no-parameter-property
+class Point { constructor(public id: string) {} }
+
+// no-legacy-namespace-keyword
+module Models { export const version = 1; }
+
+// no-import-assertions
+import data from "./data.json" asserts { type: "json" };
+
+// no-string-execution
+const value = eval("1 + 1");
+
+// no-legacy-has-own-property
+const hasId = Object.prototype.hasOwnProperty.call(record, "id");
+
+// no-global-regex-replace
+const slug = title.replace(/[^a-z]+/g, "-");
+
+// no-async-promise-executor
+const ready = new Promise(async resolve => { resolve(await load()); });
+
+// no-json-clone-round-trip
+const copy = JSON.parse(JSON.stringify(value));
+
+// no-reduce-grouping
+const byOwner = rows.reduce((groups, row) => { /* ... */ return groups; }, new Map());
+
+// no-unsafe-enum-comparison
+const isReady = Status.Ready === "ready";
+``
+
+``	sx
+// React: no-deprecated-form-event
+function onSubmit(event: React.FormEvent<HTMLFormElement>) {}
+
+// React: no-legacy-react-dom-api
+import { render } from "react-dom";
+
+// React: no-array-index-key
+rows.map((row, index) => <Row key={index} row={row} />);
+
+// React: no-nested-component
+function Table() { const Row = () => <tr />; return <Row />; }
+
+// React: no-forward-ref
+const Input = forwardRef<HTMLInputElement, Props>((props, ref) => <input ref={ref} />);
+``
+
+``	s
+// Prose: no-not-but-contrast
+// It's not just a cache; it's the source of truth.
+
+// Prose: no-ai-vocabulary
+// A delve into the intricate tapestry of the retry policy.
+
+// Prose: no-dash-as-connector
+// The new policy � announced without warning � affects thousands of workers.
+
+// Prose: no-chatbot-residue
+// I hope this helps! Let me know if you need more.
+``
 ### Analysis boundaries
 
+The rules use Oxlint's ESTree and lexical-scope APIs rather than a TypeScript type checker. Global checks (`JSON`, `Object`, `eval`) resolve a name through the scope chain and require no local binding, so a shadowed local stays valid. Module checks in the React group look at the import, so `import { render } from "somewhere-else"` is not mistaken for `react-dom`. Prose rules match comment and string text; they do not parse Markdown files, and a passage is one comment or one string literal.
 The rules use Oxlint's ESTree and lexical-scope APIs rather than a TypeScript type checker. They resolve same-file aliases—including block-scoped aliases, forward references, and transparent generic aliases—but do not infer imported type definitions or cross-file call signatures. Rules that inspect calls therefore document when enforcement is intentionally local.
 
 ## Violation examples

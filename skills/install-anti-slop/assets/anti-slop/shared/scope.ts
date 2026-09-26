@@ -13,3 +13,18 @@ export function resolveVariable(
 	}
 	return null;
 }
+
+/**
+ * Return whether a name comes from the global scope rather than a local declaration.
+ *
+ * A global binding exists in the global scope but carries no definition, so a shadowing
+ * declaration is what matters. `SourceCode.isGlobalReference` is not used because it
+ * depends on the configured globals, which the test harness does not set.
+ */
+export function isUnshadowedGlobal(
+	sourceCode: SourceCode,
+	identifier: ESTree.IdentifierReference,
+): boolean {
+	const variable = resolveVariable(sourceCode, identifier);
+	return variable === null || variable.defs.length === 0;
+}

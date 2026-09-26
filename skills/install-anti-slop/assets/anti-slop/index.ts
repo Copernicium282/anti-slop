@@ -1,21 +1,35 @@
 import { eslintCompatPlugin } from "@oxlint/plugins";
 
 import { noArrayFilterMapRule } from "./rules/no-array-filter-map.ts";
-import { noReduceAccumulatorCopyRule } from "./rules/no-reduce-accumulator-copy.ts";
+import { noAsyncPromiseExecutorRule } from "./rules/no-async-promise-executor.ts";
 import { noChainedTypeAssertionsRule } from "./rules/no-chained-type-assertions.ts";
 import { noConditionalEmptyObjectSpreadRule } from "./rules/no-conditional-empty-object-spread.ts";
+import { noEmptyObjectTypeRule } from "./rules/no-empty-object-type.ts";
+import { noEnumDeclarationRule } from "./rules/no-enum-declaration.ts";
+import { noGlobalRegexReplaceRule } from "./rules/no-global-regex-replace.ts";
+import { noImportAssertionsRule } from "./rules/no-import-assertions.ts";
+import { noJsonCloneRoundTripRule } from "./rules/no-json-clone-round-trip.ts";
 import { noKnownValueWideningRule } from "./rules/no-known-value-widening.ts";
+import { noLegacyHasOwnPropertyRule } from "./rules/no-legacy-has-own-property.ts";
+import { noLegacyNamespaceKeywordRule } from "./rules/no-legacy-namespace-keyword.ts";
 import { noModuleMockingRule } from "./rules/no-module-mocking.ts";
 import { noObjectParametersRule } from "./rules/no-object-parameters.ts";
+import { noParameterPropertyRule } from "./rules/no-parameter-property.ts";
+import { noReduceAccumulatorCopyRule } from "./rules/no-reduce-accumulator-copy.ts";
+import { noReduceGroupingRule } from "./rules/no-reduce-grouping.ts";
 import { noReflectApplyRule } from "./rules/no-reflect-apply.ts";
 import { noReflectGetRule } from "./rules/no-reflect-get.ts";
 import { noRuntimeTypeofRule } from "./rules/no-runtime-typeof.ts";
+import { noStringExecutionRule } from "./rules/no-string-execution.ts";
 import { noForbiddenTermInSymbolNamesRule } from "./rules/no-shape-in-symbol-names.ts";
 import { noUnknownParametersRule } from "./rules/no-unknown-parameters.ts";
 import { noUnknownReturnsRule } from "./rules/no-unknown-returns.ts";
 import { noUnknownTypeAliasesRule } from "./rules/no-unknown-type-aliases.ts";
 import { noUnsafeDictionaryTypeRule } from "./rules/no-unsafe-dictionary-type.ts";
+import { noUnsafeEnumComparisonRule } from "./rules/no-unsafe-enum-comparison.ts";
+import { noUnsupportedJsdocTagRule } from "./rules/no-unsupported-jsdoc-tag.ts";
 import { noWidenThenAssertRule } from "./rules/no-widen-then-assert.ts";
+import { noWrapperObjectTypesRule } from "./rules/no-wrapper-object-types.ts";
 import { requireReadableSpacingRule } from "./rules/require-readable-spacing.ts";
 import { requireSafetyCommentForTypeAssertionRule } from "./rules/require-safety-comment-for-type-assertion.ts";
 
@@ -24,21 +38,35 @@ const antiSlopPlugin = eslintCompatPlugin({
 	meta: { name: "anti-slop" },
 	rules: {
 		"no-array-filter-map": noArrayFilterMapRule,
-		"no-reduce-accumulator-copy": noReduceAccumulatorCopyRule,
+		"no-async-promise-executor": noAsyncPromiseExecutorRule,
 		"no-chained-type-assertions": noChainedTypeAssertionsRule,
 		"no-conditional-empty-object-spread": noConditionalEmptyObjectSpreadRule,
+		"no-empty-object-type": noEmptyObjectTypeRule,
+		"no-enum-declaration": noEnumDeclarationRule,
+		"no-global-regex-replace": noGlobalRegexReplaceRule,
+		"no-import-assertions": noImportAssertionsRule,
+		"no-json-clone-round-trip": noJsonCloneRoundTripRule,
 		"no-known-value-widening": noKnownValueWideningRule,
+		"no-legacy-has-own-property": noLegacyHasOwnPropertyRule,
+		"no-legacy-namespace-keyword": noLegacyNamespaceKeywordRule,
 		"no-module-mocking": noModuleMockingRule,
 		"no-object-parameters": noObjectParametersRule,
+		"no-parameter-property": noParameterPropertyRule,
+		"no-reduce-accumulator-copy": noReduceAccumulatorCopyRule,
+		"no-reduce-grouping": noReduceGroupingRule,
 		"no-reflect-apply": noReflectApplyRule,
 		"no-reflect-get": noReflectGetRule,
 		"no-runtime-typeof": noRuntimeTypeofRule,
+		"no-string-execution": noStringExecutionRule,
 		"no-unsafe-dictionary-type": noUnsafeDictionaryTypeRule,
+		"no-unsafe-enum-comparison": noUnsafeEnumComparisonRule,
+		"no-unsupported-jsdoc-tag": noUnsupportedJsdocTagRule,
 		"no-shape-in-symbol-names": noForbiddenTermInSymbolNamesRule,
 		"no-unknown-parameters": noUnknownParametersRule,
 		"no-unknown-returns": noUnknownReturnsRule,
 		"no-unknown-type-aliases": noUnknownTypeAliasesRule,
 		"no-widen-then-assert": noWidenThenAssertRule,
+		"no-wrapper-object-types": noWrapperObjectTypesRule,
 		"require-readable-spacing": requireReadableSpacingRule,
 		"require-safety-comment-for-type-assertion": requireSafetyCommentForTypeAssertionRule,
 	},
